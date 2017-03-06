@@ -18,12 +18,12 @@ public class Remote {
 
     // Http url 커넥션으로 사이트에서 정보를 긁어올 것이다.
     public void getData(final Callback obj) {
+        Log.e("remote","url connection으로 자료를 불러오고 있당께");
+        String urlStr = obj.getUrl();
 
-        String urlString = obj.getUrl();
 
-
-        if(!urlString.startsWith("http")) {
-            urlString = "http://" + urlString;
+        if(!urlStr.startsWith("http")) {
+            urlStr = "http://" + urlStr;
         }
 
         new AsyncTask<String,Void,String>() {
@@ -81,7 +81,7 @@ public class Remote {
 
             }
 
-        }.execute(urlString);
+        }.execute(urlStr);
     }
 
     public interface Callback{
