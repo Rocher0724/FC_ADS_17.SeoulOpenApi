@@ -35,7 +35,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private String hangleParameter = "";
     private String selectedGoo = "강남구";
-    private String url = "http://openapi.seoul.go.kr:8088/566d677961726f6331397471525a50/json/SearchParkingInfo/1/1000/";
+    private String url = "http://openapi.seoul.go.kr:8088/566d677961726f6331397471525a50/json/SearchParkingInfo/1/10/";
     Remote remote;
     Spinner spinner;
     String gooArray[];
@@ -64,13 +64,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // 어떤 position이 선택되었는지 표시하는 toast 메시지 출력
-//                mMap.clear();
+                mMap.clear();
                 Toast.makeText(MapsActivity.this, gooArray[position] + "선택하셨습니다.", Toast.LENGTH_SHORT).show();
                 selectedGoo = gooArray[position];
                 Log.e("Main","선택된 구 = " + selectedGoo);
 
 //                onMapReady(mMap);
-                mapFragment.getMapAsync(MapsActivity.this);
+                setMap();
 
             }
 
@@ -98,20 +98,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        Log.e("Main","OnMapReady랑께");
+        Log.e("Main","OnMapReady");
 
+
+        setMap();
+
+    }
+
+    public void setMap(){
         try {
 
             hangleParameter = URLEncoder.encode(selectedGoo, "UTF-8");
 
-            Log.e("Main","flase랑께");
+            Log.e("Main","flase");
 
             Log.e("Main","한글파라미터 = " + hangleParameter);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
-        url = url + hangleParameter;
+        url = "http://openapi.seoul.go.kr:8088/566d677961726f6331397471525a50/json/SearchParkingInfo/1/10/" + hangleParameter;
 
 
         // 1. 공영 주차장 마커 전체를 화면에 출력
@@ -120,10 +126,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // 2. 중심점을 서울로 이동
         LatLng seoul = new LatLng(37.5666696, 126.977942);
-//        mMap.addMarker(new MarkerOptions().position(seoul).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(seoul,10));
-
-
     }
 
     @Override
